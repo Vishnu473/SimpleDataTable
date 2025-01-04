@@ -1,0 +1,60 @@
+<div class="w-4/3 p-10 shadow-lg bg-white shadow-red-200/20 mx-36 my-10">
+
+    <div class="flex justify-between items-center mt-5 mb-5">
+
+        <p class="justify-center text-center"></p>
+
+        <input type="text" placeholder="Search" class="w-full border p-2 rounded-lg"
+        #filter (keyup)="filterData(filter.value)">
+        <select class="border p-2 rounded-lg ml-5" #pageSize (change)="PageSizeChange(pageSize.value)">
+            <option *ngFor="let size of pageSizes" [value]="size"> {{size}} </option>
+        </select>
+    </div>
+
+    <Button class="text-white bg-cyan-500 cursor-pointer border-2 rounded-lg px-4 py-2 mb-5" routerLink="add" (click)="Add()"> Add </Button>
+
+    <table class="w-full border-4">
+        <thead>
+            <tr class="border-2">
+                <th class="p-3 text-left bg-gray-200">#</th>
+                <th class="p-3 text-left bg-gray-200">Supplier</th>
+                <th class="p-3 text-left bg-gray-200">Address</th>
+                <th class="p-3 text-left bg-gray-200">E -mail</th>
+                <th class="p-3 text-left bg-gray-200">Phone</th>
+                <th class="p-3 text-left bg-gray-200">Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            @for (supplier of visibleData(); track supplier ; let i = $index) 
+            {
+                <tr class="border-2">
+                    <td class="p-3 border-2">{{i+1}}</td>
+                    <td class="p-3 border-2">{{supplier.name}}</td>
+                    <td class="p-3 border-2">{{supplier.address}}</td>
+                    <td class="p-3 border-2">{{supplier.mail}}</td>
+                    <td class="p-3 border-2">{{supplier.phone}}</td>
+                    <td class="p-3 border-2"></td>
+                </tr>
+            }
+            @empty {
+                <p class="text-cyan-900 text-lg font-bold text-center">No data to show</p>
+            }
+        </tbody>
+    </table>
+
+    <div class="flex justify-center items-center mt-4">
+        <button class="text-cyan-500 py-2 px-4 border-4 rounded-l-lg cursor-pointer mr-5"
+        (click)="PrevClick()">Previous</button>
+        <button class=" px-4 py-2 cursor-pointer mr-5"
+            *ngFor="let page of totalPages(); let i = index"
+            [class.bg-cyan-500] = "i+1 == currentPage"
+            [class.text-white]= "i+1 == currentPage"
+            [class.border-cyan-600] = "i+1 != currentPage" (click)="navigate(i+1)">{{i+1}}</button>
+        
+        <button class="text-cyan-500 py-2 px-4 border-4 rounded-r-lg cursor-pointer"
+        (click)="NextClick()">Next</button>
+    </div>
+
+</div>
+<!-- <app-add (newAddDataEvent)="addSupplier($event)"></app-add> -->
+<!-- <app-add (newAddDataEvent)="addSupplier($event)"></app-add> -->
